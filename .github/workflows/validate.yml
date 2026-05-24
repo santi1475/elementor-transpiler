@@ -1,0 +1,70 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check SKILL.md files exist and have required frontmatter
+        run: |
+          echo "🔍 Validating SKILL.md files..."
+          
+          ERRORS=0
+          
+          for skill_file in $(find . -name "SKILL.md" -not -path "*/node_modules/*"); do
+            echo "Checking: $skill_file"
+            
+            # Check for name field
+            if ! grep -q "^name:" "$skill_file"; then
+              echo "❌ Missing 'name' in frontmatter: $skill_file"
+              ERRORS=$((ERRORS + 1))
+            fi
+            
+            # Check for description field
+            if ! grep -q "^description:" "$skill_file"; then
+              echo "❌ Missing 'description' in frontmatter: $skill_file"
+              ERRORS=$((ERRORS + 1))
+            fi
+            
+            echo "✅ $skill_file looks good"
+          done
+          
+          if [ $ERRORS -gt 0 ]; then
+            echo "❌ Found $ERRORS error(s)"
+            exit 1
+          fi
+          
+          echo "✅ All skills validated successfully"
+
+      - name: Check references exist
+        run: |
+          echo "🔍 Checking reference files..."
+          
+          REFS=(
+            "skills/elementor-transpiler/references/animation-map.md"
+            "skills/elementor-transpiler/references/color-system.md"
+            "skills/elementor-transpiler/references/typography-map.md"
+            "skills/elementor-transpiler/references/target-frameworks.md"
+          )
+          
+          for ref in "${REFS[@]}"; do
+            if [ ! -f "$ref" ]; then
+              echo "❌ Missing reference file: $ref"
+              exit 1
+            fi
+            echo "✅ Found: $ref"
+          done
+          
+          echo "✅ All reference files present"
