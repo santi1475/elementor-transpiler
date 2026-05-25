@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.jpeg" alt="elementor-transpiler logo" width="120" style="border-radius: 12px;">
+  <img src="assets/logo.jpeg" alt="elementor-transpiler logo" width="560" style="border-radius: 12px;">
 </p>
 
 <h1 align="center">elementor-transpiler</h1>
