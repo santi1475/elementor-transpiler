@@ -53,10 +53,10 @@ jobs:
           echo "🔍 Checking reference files..."
           
           REFS=(
-            "skills/elementor-transpiler/references/animation-map.md"
-            "skills/elementor-transpiler/references/color-system.md"
-            "skills/elementor-transpiler/references/typography-map.md"
-            "skills/elementor-transpiler/references/target-frameworks.md"
+            "skills/references/animation-map.md"
+            "skills/references/color-system.md"
+            "skills/references/typography-map.md"
+            "skills/references/target-frameworks.md"
           )
           
           for ref in "${REFS[@]}"; do
